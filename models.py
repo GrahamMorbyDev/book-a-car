@@ -16,10 +16,3 @@ class Booking(db.Model):
     email = db.Column('Email', db.String)
     booking_date = db.Column('Booking Date', db.DATETIME, nullable=True)
 
-    def __repr__(self):
-        print(f'''
-            Booking< First name: {self.first_name}
-            Last name: {self.last_name}
-            Email: {self.email}
-            Booking_date: {self.booking_date}
-        ''')

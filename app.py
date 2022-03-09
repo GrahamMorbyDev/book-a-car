@@ -1,27 +1,29 @@
 from models import db, app, Booking
 from flask import (render_template, url_for, request, redirect, flash)
-import datetime
 from datetime import date
+from datetime import datetime
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     today = date.today()
     midnight = datetime.combine(today, datetime.min.time())
-    bookings = Booking.query.filter(Booking.booking_date == today).all()
+    bookings = Booking.query.filter(Booking.booking_date == midnight).all()
+    count_bookings = Booking.query.filter(Booking.booking_date == midnight).count()
 
-    print(bookings)
     if request.form:
         new_booking = Booking(
             first_name=request.form['first_name'],
             last_name=request.form['last_name'],
             email=request.form['email'],
-            booking_date=datetime.datetime.strptime(request.form['booking_date'], '%Y-%m-%d')
+            booking_date=datetime.strptime(request.form['booking_date'], '%Y-%m-%d')
         )
         db.session.add(new_booking)
         db.session.commit()
         flash('Your booking was successful')
         return redirect(url_for('index'))
+    if count_bookings >= 4:
+        flash('All spaces are booked for today!')
     return render_template('index.html', bookings=bookings)
 
 
