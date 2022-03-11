@@ -75,7 +75,8 @@ def index():
     bookings = Booking.query.filter(Booking.booking_date == midnight).all()
     mybookings = Booking.query.filter(Booking.email == current_user.email).all()
     count_bookings = Booking.query.filter(Booking.booking_date == midnight).count()
-
+    #for booking in mybookings:
+    #    print(booking.id, booking.booking_date)
     if request.form:
         if (request.form['first_name'] == '') or (request.form['last_name'] == '') or \
             (request.form['email'] == '') or (request.form['booking_date'] == ''):
@@ -102,3 +103,16 @@ def index():
         if count_bookings >= spaces:
             flash('All spaces are booked for today!')
     return render_template('index.html', bookings=bookings, mybookings=mybookings)
+
+@app.route('/delete', methods=['GET', 'POST'])
+def delete():
+    #cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    if request.method == 'POST':
+        for getid in request.form.getlist('mycheckbox'):
+            print(getid)
+            Booking.query.filter_by(id=getid).delete()
+            db.session.commit()
+            #cur.execute('DELETE FROM contacts WHERE id = {0}'.format(getid))
+            #conn.commit()
+        flash('Successfully Deleted!')
+    return redirect('/index')

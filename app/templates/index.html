@@ -14,6 +14,7 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <title>Book space</title>
 </head>
 <body>
@@ -82,49 +83,52 @@
         </div>
     </div>
     <div class="row mt-2">
-        <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First name</th>
-      <th scope="col">Last name</th>
-      <th scope="col">Email</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for booking in bookings %}
-    <tr>
-      <th scope="row">{{booking.id}}</th>
-      <td>{{booking.first_name}}</td>
-      <td>{{booking.last_name}}</td>
-      <td>{{booking.email}}</td>
-    </tr>
-  {% endfor %}
-  </tbody>
-</table>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for booking in bookings %}
+          <tr>
+            <th scope="row">{{booking.id}}</th>
+            <td>{{booking.first_name}}</td>
+            <td>{{booking.last_name}}</td>
+            <td>{{booking.email}}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
     </div>
-	<div class="row">
-        	<div class="col">
-            	<h3 class="mt-5">Your bookings</h3>
-        	</div>
-   	</div>
-	 <div class="row mt-2">
-        <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Date</th>
-      <th scope="col">Delete?</th>
-    </tr>
-  </thead>
-    <tbody>
-  {% for mybookings in mybookings %}
-    <tr>
-      <th scope="row">{{mybookings.id}}</th>
-      <td>{{mybookings.booking_date}}</td>
-    </tr>
-  {% endfor %}
-  </tbody>
+    {% if mybookings %}
+  	  <div class="row">
+        <div class="col">
+          <h3 class="mt-5">Your bookings</h3>
+        </div>
+     	</div>
+	    <div class="row mt-2">
+  	    <form action="{{url_for('delete')}}" method="post">
+          <input type="submit" value="Delete All Selected" class="btn btn-primary">  
+      </div>
+      <table class="table table-bordered">
+        <tr>
+        <th>Date</th>
+        <th>Delete</th>
+        </tr>
+        {% for mybooking in mybookings %}
+          <tr id="{{mybooking.id}}" >
+          <td>{{mybooking.booking_date}}</td>
+          <td><input type="checkbox" name="mycheckbox" value="{{mybooking.id}}" /></td>
+          </tr>
+        {% endfor %}
+      </table>
+      </div>
+    {% endif %}
+  </form>  
 </table>
 </div>
 
