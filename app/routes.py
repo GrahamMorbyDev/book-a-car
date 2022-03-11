@@ -10,6 +10,7 @@ import json
 
 settings_file = open('parameters.json')
 settings = json.load(settings_file)
+DOMAINS_ALLOWED = ['leighton.com']
 
 def pasttime(new_date):
     today = date.today()
@@ -50,21 +51,29 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
-        user.set_password(form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('login'))
+        email = form.email.data
+        email_domain = email.split('@')[-1]
+        if email_domain in DOMAINS_ALLOWED:
+            user = User(username=form.username.data, email=form.email.data)
+            user.set_password(form.password.data)
+            db.session.add(user)
+            db.session.commit()
+            flash('Congratulations, you are now a registered user!')
+            return redirect(url_for('login'))
+        else:
+            flash('Your email address is not valid')
     return render_template('register.html', title='Register', form=form)
 
 
 @app.route('/index', methods=['GET', 'POST'])
+@login_required
 def index():
+    #print(current_user.email)
     spaces = settings["spaces"]
     today = date.today()
     midnight = datetime.combine(today, datetime.min.time())
     bookings = Booking.query.filter(Booking.booking_date == midnight).all()
+    mybookings = Booking.query.filter(Booking.email == current_user.email).all()
     count_bookings = Booking.query.filter(Booking.booking_date == midnight).count()
 
     if request.form:
@@ -92,5 +101,4 @@ def index():
                 return redirect(url_for('index'))
         if count_bookings >= spaces:
             flash('All spaces are booked for today!')
-    return render_template('index.html', bookings=bookings)
-
+    return render_template('index.html', bookings=bookings, mybookings=mybookings)

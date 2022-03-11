@@ -1,4 +1,6 @@
-<!doctype html>
+{% extends "base.html" %}
+
+{% block content %}
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -101,7 +103,29 @@
   </tbody>
 </table>
     </div>
-
+	<div class="row">
+        	<div class="col">
+            	<h3 class="mt-5">Your bookings</h3>
+        	</div>
+   	</div>
+	 <div class="row mt-2">
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Date</th>
+      <th scope="col">Delete?</th>
+    </tr>
+  </thead>
+    <tbody>
+  {% for mybookings in mybookings %}
+    <tr>
+      <th scope="row">{{mybookings.id}}</th>
+      <td>{{mybookings.booking_date}}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
 </div>
 
 
@@ -109,4 +133,4 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
 </body>
-</html>
+{% endblock %}
