@@ -75,11 +75,18 @@ def index():
     bookings = Booking.query.filter(Booking.booking_date == midnight).all()
     mybookings = Booking.query.filter(Booking.email == current_user.email).all()
     count_bookings = Booking.query.filter(Booking.booking_date == midnight).count()
-    #for booking in mybookings:
-    #    print(booking.id, booking.booking_date)
+    old_bookings = Booking.query.filter(Booking.booking_date < midnight).all()
+
+    for booking in old_bookings:
+        print(booking.id, booking.booking_date, booking.email)
+        Booking.query.filter_by(id=booking.id).delete()
+        db.session.commit()
     if request.form:
         if (request.form['first_name'] == '') or (request.form['last_name'] == '') or \
-            (request.form['email'] == '') or (request.form['booking_date'] == ''):
+            (request.form['email'] != current_user.email) or (request.form['booking_date'] == '') or \
+            (request.form['email_onbehalf'] == ''):
+                print(current_user.email)
+                print(request.form['email_onbehalf'])
                 flash('Error: First Name, Last Name, Email and Date must be provided!')
         else:
             new_date = datetime.strptime(request.form['booking_date'], '%Y-%m-%d')
@@ -87,13 +94,14 @@ def index():
             datediff = pasttime(new_date)
             if datediff >= 1:
                 flash('You booking date is in the past - we can not complete the booking')
-            elif count_new_bookings >= spaces:
+            if count_new_bookings >= spaces:
                 flash('We could not complete your booking, all places are full')
             else:
                 new_booking = Booking(
                     first_name=request.form['first_name'],
                     last_name=request.form['last_name'],
                     email=request.form['email'],
+                    email_onbehalf=request.form['email_onbehalf'],
                     booking_date=datetime.strptime(request.form['booking_date'], '%Y-%m-%d')
                 )
                 db.session.add(new_booking)
@@ -108,11 +116,12 @@ def index():
 def delete():
     #cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     if request.method == 'POST':
-        for getid in request.form.getlist('mycheckbox'):
-            print(getid)
-            Booking.query.filter_by(id=getid).delete()
-            db.session.commit()
-            #cur.execute('DELETE FROM contacts WHERE id = {0}'.format(getid))
-            #conn.commit()
-        flash('Successfully Deleted!')
+        if request.form.getlist('mycheckbox'):
+            for getid in request.form.getlist('mycheckbox'):
+                #print(getid)
+                Booking.query.filter_by(id=getid).delete()
+                db.session.commit()
+                #cur.execute('DELETE FROM contacts WHERE id = {0}'.format(getid))
+                #conn.commit()
+            flash('Successfully Deleted!')
     return redirect('/index')

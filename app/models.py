@@ -9,6 +9,7 @@ class Booking(db.Model):
     first_name = db.Column('First name', db.String)
     last_name = db.Column('Last name', db.String)
     email = db.Column('Email', db.String)
+    email_onbehalf = db.Column('Email On Behalf', db.String)
     booking_date = db.Column('Booking Date', db.DATETIME, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 

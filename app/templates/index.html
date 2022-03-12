@@ -59,6 +59,10 @@
               <input type="text" class="form-control" id="email" name="email" placeholder="leonard.nimoy@leighton.com">
             </div>
             <div class="mb-3">
+              <label for="email_onbehalf" class="form-label">Email of User</label>
+              <input type="text" class="form-control" id="email_onbehalf" name="email_onbehalf" placeholder="leonard.nimoy@leighton.com">
+            </div>
+            <div class="mb-3">
               <label for="booking_date" class="form-label">Booking Date</label>
               <input type="date" class="form-control" id="booking_date" name="booking_date">
             </div>
@@ -90,6 +94,7 @@
             <th scope="col">First name</th>
             <th scope="col">Last name</th>
             <th scope="col">Email</th>
+            <th scope="col">Email On Behalf</th>
           </tr>
         </thead>
         <tbody>
@@ -99,6 +104,7 @@
             <td>{{booking.first_name}}</td>
             <td>{{booking.last_name}}</td>
             <td>{{booking.email}}</td>
+            <td>{{booking.email_onbehalf}}</td>
           </tr>
         {% endfor %}
         </tbody>
@@ -117,11 +123,13 @@
       <table class="table table-bordered">
         <tr>
         <th>Date</th>
+        <th>Email on Behalf</th>
         <th>Delete</th>
         </tr>
         {% for mybooking in mybookings %}
           <tr id="{{mybooking.id}}" >
           <td>{{mybooking.booking_date}}</td>
+          <td>{{mybooking.email_onbehalf}}</td>
           <td><input type="checkbox" name="mycheckbox" value="{{mybooking.id}}" /></td>
           </tr>
         {% endfor %}
