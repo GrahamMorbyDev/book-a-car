@@ -21,7 +21,7 @@ def pasttime(new_date):
 def helloworld():
     return 'Hello World'
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
