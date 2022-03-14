@@ -94,7 +94,7 @@ def index():
             datediff = pasttime(new_date)
             if datediff >= 1:
                 flash('You booking date is in the past - we can not complete the booking')
-            if count_new_bookings >= spaces:
+            elif count_new_bookings >= spaces:
                 flash('We could not complete your booking, all places are full')
             else:
                 new_booking = Booking(

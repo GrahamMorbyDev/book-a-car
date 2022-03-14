@@ -1,3 +1,4 @@
+from os import lseek
 from app import app, db
 
 # Press the green button in the gutter to run the script.
