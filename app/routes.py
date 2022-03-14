@@ -93,9 +93,9 @@ def index():
             count_new_bookings = Booking.query.filter(Booking.booking_date == new_date).count()
             datediff = pasttime(new_date)
             if datediff >= 1:
-                flash('You booking date is in the past - we can not complete the booking')
+                flash('You booking date is in the past - we can not complete the booking', 'alert-danger')
             elif count_new_bookings >= spaces:
-                flash('We could not complete your booking, all places are full')
+                flash('We could not complete your booking, all places are full', 'alert-danger')
             else:
                 new_booking = Booking(
                     first_name=request.form['first_name'],
