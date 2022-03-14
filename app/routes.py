@@ -29,7 +29,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
+            flash('Invalid username or password', 'alert-danger')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
@@ -58,10 +58,10 @@ def register():
             user.set_password(form.password.data)
             db.session.add(user)
             db.session.commit()
-            flash('Congratulations, you are now a registered user!')
+            flash('Congratulations, you are now a registered user!', 'alert-success')
             return redirect(url_for('login'))
         else:
-            flash('Your email address is not valid')
+            flash('Your email address is not valid', 'alert-danger')
     return render_template('register.html', title='Register', form=form)
 
 
@@ -87,15 +87,15 @@ def index():
             (request.form['email_onbehalf'] == ''):
                 print(current_user.email)
                 print(request.form['email_onbehalf'])
-                flash('Error: First Name, Last Name, Email and Date must be provided!')
+                flash('First Name, Last Name, Email and Date must be provided!', 'alert-danger')
         else:
             new_date = datetime.strptime(request.form['booking_date'], '%Y-%m-%d')
             count_new_bookings = Booking.query.filter(Booking.booking_date == new_date).count()
             datediff = pasttime(new_date)
             if datediff >= 1:
-                flash('You booking date is in the past - we can not complete the booking')
+                flash('You booking date is in the past - we can not complete the booking', 'alert-danger')
             if count_new_bookings >= spaces:
-                flash('We could not complete your booking, all places are full')
+                flash('We could not complete your booking, all places are full', 'alert-danger')
             else:
                 new_booking = Booking(
                     first_name=request.form['first_name'],
@@ -106,10 +106,10 @@ def index():
                 )
                 db.session.add(new_booking)
                 db.session.commit()
-                flash('Your booking was successful')
+                flash('Your booking was successful', 'alert-success')
                 return redirect(url_for('index'))
         if count_bookings >= spaces:
-            flash('All spaces are booked for today!')
+            flash('All spaces are booked for today!', 'alert-danger')
     return render_template('index.html', bookings=bookings, mybookings=mybookings)
 
 @app.route('/delete', methods=['GET', 'POST'])
@@ -123,5 +123,5 @@ def delete():
                 db.session.commit()
                 #cur.execute('DELETE FROM contacts WHERE id = {0}'.format(getid))
                 #conn.commit()
-            flash('Successfully Deleted!')
+            flash('Successfully Deleted!', 'alert-success')
     return redirect('/index')
