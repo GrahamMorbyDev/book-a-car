@@ -7,6 +7,20 @@
             <h1 class="header-title"><i class="fas fa-car"></i> Book <span class="blue">Space</span></h1>
         </div>
         <div class="row">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+        
+            {% for category, message in messages %}
+            <div class="alert {{ category }} alert-dismissible fade show mt-5" role="alert">
+              <strong>{{message}}</strong>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        
+            {% endif %}
+            {% endwith %}
+        </div>
+        <div class="row">
             <div class="col">
                 <h3 class="mt-5">Book a parking bay</h3>
             </div>
