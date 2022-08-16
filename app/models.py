@@ -5,12 +5,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    created = db.Column('Created', db.DATETIME, default=datetime.datetime.now)
-    first_name = db.Column('First name', db.String(64))
-    last_name = db.Column('Last name', db.String(64))
-    email = db.Column('Email', db.String(128))
-    email_onbehalf = db.Column('Email On Behalf', db.String(128))
-    booking_date = db.Column('Booking Date', db.DATETIME, nullable=True)
+    created = db.Column(db.DATETIME, default=datetime.datetime.now)
+    first_name = db.Column(db.String(64))
+    last_name = db.Column(db.String(64))
+    email = db.Column(db.String(128))
+    email_onbehalf = db.Column(db.String(128))
+    booking_date = db.Column(db.DATETIME, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 class User(UserMixin, db.Model):

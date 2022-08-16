@@ -12,6 +12,9 @@ settings_file = open('parameters.json')
 settings = json.load(settings_file)
 DOMAINS_ALLOWED = ['leighton.com', 'leighton.co.uk', 'footy.com']
 
+print("Database Tables")
+print(db.engine.table_names())
+
 def pasttime(new_date):
     today = date.today()
     datediff = today - new_date.date()
