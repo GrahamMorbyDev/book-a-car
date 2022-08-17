@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from app import db, login
 import datetime
 from flask_login import UserMixin
@@ -12,6 +13,19 @@ class Booking(db.Model):
     email_onbehalf = db.Column(db.String(128))
     booking_date = db.Column(db.DATETIME, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def obj_to_dict(self):  # for build json format
+        return {
+            "id": self.id,
+            "created": self.created,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "email": self.email,
+            "email_onbehalf": self.email_onbehalf,
+            "booking_date": self.booking_date,
+            "user_id": self.user_id,
+        }
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)

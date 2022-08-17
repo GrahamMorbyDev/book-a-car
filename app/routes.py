@@ -1,7 +1,7 @@
 from app import db, application
 from app.models import Booking, User
 from app.forms import LoginForm, RegistrationForm
-from flask import render_template, url_for, request, redirect, flash
+from flask import render_template, url_for, request, redirect, flash, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
 from datetime import date, timedelta
@@ -122,6 +122,12 @@ def index():
             else:
                 future_date = datetime.strptime(request.form['future_date'], '%Y-%m-%d')
                 currentbookings = Booking.query.filter(Booking.booking_date == future_date).all()
+                print(type(currentbookings))
+                future_bookings = [item.obj_to_dict() for item in currentbookings]
+                # future_bookings = json.dumps([dict(r) for r in currentbookings])
+                # print(type(future_bookings))
+                print(future_bookings)
+
     return render_template('index.html', bookings=bookings, mybookings=mybookings, currentbookings=currentbookings)
 
 @application.route('/delete', methods=['GET', 'POST'])
