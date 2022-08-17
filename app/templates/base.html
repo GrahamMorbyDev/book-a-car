@@ -32,6 +32,9 @@
                         <a class="btn btn-success text-white" href="{{ url_for('register') }}">Register</a>
                         <a class="btn btn-primary text-white" href="{{ url_for('login') }}">Login</a>
                         {% else %}
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myBookings">
+                              My Bookings
+                            </button>
                         <a class="btn btn-primary text-white" href="{{ url_for('logout') }}">Logout</a>
                         {% endif %}
                     </div>

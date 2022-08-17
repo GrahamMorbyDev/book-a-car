@@ -100,10 +100,59 @@
         <label for="future_date" class="form-label">Booking Date</label>
         <input type="date" class="form-control" id="future_date" name="future_date">
       </div>
-      <button type="submit" class="btn btn-success float-right mt-3">Check Date</button>  
+      <button type="submit" class="btn btn-success float-right mt-3">Check Date</button>
     </form>
   </div>
-  {% if currentbookings %}
+    <!-- My Bookings Modal -->
+   <div class="modal fade" id="myBookings" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">My Bookings</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          {% if mybookings %}
+              <div class="row p-3">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Email on Behalf</th>
+                      <th>Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <form action="{{url_for('delete')}}" method="post">
+
+                    {% for mybooking in mybookings %}
+                    <tr id="{{mybooking.id}}">
+                      <td style="font-size: 10px">{{mybooking.booking_date}}</td>
+                      <td>{{mybooking.email_onbehalf}}</td>
+                      <td><input type="checkbox" name="mycheckbox" value="{{mybooking.id}}" /></td>
+                    </tr>
+                    {% endfor %}
+
+                  </tbody>
+
+                </table>
+              </div>
+          {% endif %}
+      </div>
+      <div class="modal-footer">
+          <input type="submit" value="Delete All Selected" class="btn btn-danger">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+    {% if currentbookings %}
   <div class="row mt-2">
     <table class="table">
       <thead>
@@ -131,36 +180,6 @@
     </table>
   </div>
   {% endif %}
-  {% if mybookings %}
-  <div class="row">
-    <div class="col">
-      <h3 class="mt-5">Your bookings</h3>
-    </div>
-  </div>
-  <div class="row">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Email on Behalf</th>
-          <th>Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        <form action="{{url_for('delete')}}" method="post">
-        <input type="submit" value="Delete All Selected" class="btn btn-danger btn-sm mt-3 mb-3">
-        {% for mybooking in mybookings %}
-        <tr id="{{mybooking.id}}">
-          <td>{{mybooking.booking_date}}</td>
-          <td>{{mybooking.email_onbehalf}}</td>
-          <td><input type="checkbox" name="mycheckbox" value="{{mybooking.id}}" /></td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </form>
-    </table>
-  </div>
-</div>
-{% endif %}
+
 </div>
 {% endblock %}
