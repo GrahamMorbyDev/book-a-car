@@ -17,12 +17,12 @@ class Booking(db.Model):
     def obj_to_dict(self):  # for build json format
         return {
             "id": self.id,
-            "created": self.created,
+            "created": str(self.created),
             "first_name": self.first_name,
             "last_name": self.last_name,
             "email": self.email,
             "email_onbehalf": self.email_onbehalf,
-            "booking_date": self.booking_date,
+            "booking_date": str(self.booking_date),
             "user_id": self.user_id,
         }
 

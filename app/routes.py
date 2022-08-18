@@ -1,7 +1,7 @@
 from app import db, application
 from app.models import Booking, User
 from app.forms import LoginForm, RegistrationForm
-from flask import render_template, url_for, request, redirect, flash, jsonify
+from flask import render_template, url_for, request, redirect, flash, jsonify, make_response
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
 from datetime import date, timedelta
@@ -143,3 +143,37 @@ def delete():
                 #conn.commit()
             flash('Successfully Deleted!', 'alert-success')
     return redirect('/index')
+
+@application.route('/futurebookings', methods=['GET', 'POST'])
+def futurebookings():
+    today = date.today()
+    midnight = datetime.combine(today, datetime.min.time())
+    currentbookings = Booking.query.filter(Booking.booking_date == midnight).all()
+    future_bookings = [item.obj_to_dict() for item in currentbookings]
+    
+    date_future = request.args.get("futuredate")
+    future_date = datetime.strptime(date_future, '%Y-%m-%d')
+    currentbookings = Booking.query.filter(Booking.booking_date == future_date).all()
+    future_bookings = [item.obj_to_dict() for item in currentbookings]
+    print(date_future)
+    response_list = []
+    for i, j in enumerate(future_bookings):
+        item = {str(i): j}
+        response_list.append(item)
+
+    print(type(future_bookings))
+    
+    # final = json.dumps(response_list)
+    response_list = [{'A': 'val1', 'B': 'val2'}, {'C': 'val3', 'D': 'val4'}]
+    response = {
+        'message': response_list,
+        'state': 200
+    }
+
+    # response = json.dumps(response)
+    # response = json.loads(response)
+
+    # response = f"""
+    # Hello
+    # """
+    return render_template("future_bookings.html", message=response_list)
