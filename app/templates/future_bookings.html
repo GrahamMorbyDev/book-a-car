@@ -1,3 +1,32 @@
-{% for val in message %}
-    {{val}}<br>
-{% endfor %}
+
+    <!-- {{val}} <br> -->
+<div class="row mt-2">
+
+    <table class="table">
+       
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Email On Behalf</th>
+                <th scope="col">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for val in message %}
+            <tr>
+                <th scope="row">{{val.id}}</th>
+                <td>{{val.first_name}}</td>
+                <td>{{val.last_name}}</td>
+                <td>{{val.email}}</td>
+                <td>{{val.email_onbehalf}}</td>
+                <td>{{val.booking_date}}</td>
+            </tr>
+            {% endfor %} 
+        </tbody>
+    </table>
+</div>
+    
+    

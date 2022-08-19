@@ -140,15 +140,6 @@
     <h3 class="mt-5">Future bookings</h3>
   </div>
 </div>
-<div class="col-xs-12 col-sm-12 col-md-6" id="future_form">
-  <form action="{{url_for('index')}}" method="post">
-    <div class="mb-3">
-      <label for="future_date" class="form-label">Booking Date</label>
-      <input type="date" class="form-control" id="future_date" name="future_date">
-    </div>
-    <button type="submit" class="btn btn-success float-right mt-3">Check Date</button>
-  </form>
-</div>
 
 <form
     hx-get="/futurebookings"
@@ -161,37 +152,37 @@
 <div id="search-results">
  
 
-</div>
 
 
-{% if currentbookings %}
-<div class="row mt-2">
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">First name</th>
-        <th scope="col">Last name</th>
-        <th scope="col">Email</th>
-        <th scope="col">Email On Behalf</th>
-        <th scope="col">Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for booking in currentbookings %}
-      <tr>
-        <th scope="row">{{booking.id}}</th>
-        <td>{{booking.first_name}}</td>
-        <td>{{booking.last_name}}</td>
-        <td>{{booking.email}}</td>
-        <td>{{booking.email_onbehalf}}</td>
-        <td>{{booking.booking_date}}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-{% endif %}
+  {% if currentbookings %}
+  <div class="row mt-2">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">First name</th>
+          <th scope="col">Last name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Email On Behalf</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for booking in currentbookings %}
+        <tr>
+          <th scope="row">{{booking.id}}</th>
+          <td>{{booking.first_name}}</td>
+          <td>{{booking.last_name}}</td>
+          <td>{{booking.email}}</td>
+          <td>{{booking.email_onbehalf}}</td>
+          <td>{{booking.booking_date}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+<div></div>
 
-</div>
+
 {% endblock %}

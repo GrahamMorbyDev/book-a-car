@@ -156,17 +156,18 @@ def futurebookings():
     currentbookings = Booking.query.filter(Booking.booking_date == future_date).all()
     future_bookings = [item.obj_to_dict() for item in currentbookings]
     print(date_future)
+    print(future_bookings)
     response_list = []
     for i, j in enumerate(future_bookings):
         item = {str(i): j}
         response_list.append(item)
 
-    print(type(future_bookings))
+    # print(type(future_bookings))
     
-    # final = json.dumps(response_list)
-    response_list = [{'A': 'val1', 'B': 'val2'}, {'C': 'val3', 'D': 'val4'}]
+    # # final = json.dumps(response_list)
+    # response_list = [{'A': 'val1', 'B': 'val2'}, {'C': 'val3', 'D': 'val4'}]
     response = {
-        'message': response_list,
+        'message': future_bookings,
         'state': 200
     }
 
@@ -176,4 +177,4 @@ def futurebookings():
     # response = f"""
     # Hello
     # """
-    return render_template("future_bookings.html", message=response_list)
+    return render_template("future_bookings.html", message=future_bookings)
