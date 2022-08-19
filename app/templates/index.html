@@ -2,187 +2,192 @@
 
 {% block content %}
 
-<div class="container">
-  <div class="row">
-    <div class="col text-center mt-5">
-      <h1 class="header-title"><i class="fas fa-car"></i> Book <span class="blue">Space</span></h1>
+    <div class="container">
+    <div class="row">
+        <div class="col text-center mt-5">
+            <h1 class="header-title"><i class="fas fa-car"></i> Book <span class="blue">Space</span></h1>
+        </div>
     </div>
-  </div>
-  <div class="row">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
+    <div class="row">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
 
-    {% for category, message in messages %}
-    <div class="alert {{ category }} alert-dismissible fade show mt-5" role="alert">
-      <strong>{{message}}</strong>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    {% endfor %}
+                {% for category, message in messages %}
+                    <div class="alert {{ category }} alert-dismissible fade show mt-5" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
 
-    {% endif %}
-    {% endwith %}
-  </div>
-  <div class="row">
-    <div class="col">
-      <h3 class="mt-5">Book a parking bay</h3>
+            {% endif %}
+        {% endwith %}
     </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col-xs-12 col-sm-12 col-md-6" id="booking_form">
-      <form action="{{url_for('index')}}" method="post">
-        <div class="mb-3">
-          <label for="first_name" class="form-label">First name</label>
-          <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Leonard">
+    <div class="row">
+        <div class="col">
+            <h3 class="mt-5">Book a parking bay</h3>
         </div>
-        <div class="mb-3">
-          <label for="last_name" class="form-label">Last name</label>
-          <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Nimoy">
-        </div>
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input type="text" class="form-control" id="email" name="email" placeholder="leonard.nimoy@leighton.com">
-        </div>
-        <div class="mb-3">
-          <label for="email_onbehalf" class="form-label">Email of driver</label>
-          <input type="text" class="form-control" id="email_onbehalf" name="email_onbehalf"
-            placeholder="leonard.nimoy@leighton.com">
-        </div>
-        <div class="mb-3">
-          <label for="booking_date" class="form-label">Booking Date</label>
-          <input type="date" class="form-control" id="booking_date" name="booking_date">
-        </div>
-        <button type="submit" class="btn btn-success float-right mt-3">Create Booking</button>
-      </form>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-6">
-      <iframe width="100%" height="550" style="border:0" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/place?key=AIzaSyANLhb67nWO0n9B3N6DGz19JTulEtBDYhY
+    <div class="row mt-2">
+        <div class="col-xs-12 col-sm-12 col-md-6" id="booking_form">
+            <form action="{{ url_for('index') }}" method="post">
+                <div class="mb-3">
+                    <label for="first_name" class="form-label">First name</label>
+                    <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Leonard">
+                </div>
+                <div class="mb-3">
+                    <label for="last_name" class="form-label">Last name</label>
+                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Nimoy">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="text" class="form-control" id="email" name="email"
+                           placeholder="leonard.nimoy@leighton.com">
+                </div>
+                <div class="mb-3">
+                    <label for="email_onbehalf" class="form-label">Email of driver</label>
+                    <input type="text" class="form-control" id="email_onbehalf" name="email_onbehalf"
+                           placeholder="leonard.nimoy@leighton.com">
+                </div>
+                <div class="mb-3">
+                    <label for="booking_date" class="form-label">Booking Date</label>
+                    <input type="date" class="form-control" id="booking_date" name="booking_date">
+                </div>
+                <button type="submit" class="btn btn-success float-right mt-3">Create Booking</button>
+            </form>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <iframe width="100%" height="550" style="border:0" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/place?key=AIzaSyANLhb67nWO0n9B3N6DGz19JTulEtBDYhY
                     &q=The+Core,+Newcastle+upon+Tyne+NE4+5TF">
-      </iframe>
+            </iframe>
+        </div>
     </div>
-  </div>
-  <div class="row">
+    <div class="row">
+        <div class="col">
+            <h3 class="mt-5">Today's bookings</h3>
+        </div>
+    </div>
+    <div class="row mt-2">
     <div class="col">
-      <h3 class="mt-5">Today's bookings</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Email On Behalf</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for booking in bookings %}
+                <tr>
+                    <th scope="row">{{ booking.id }}</th>
+                    <td>{{ booking.first_name }}</td>
+                    <td>{{ booking.last_name }}</td>
+                    <td>{{ booking.email }}</td>
+                    <td>{{ booking.email_onbehalf }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
-  </div>
-  <div class="row mt-2">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">First name</th>
-          <th scope="col">Last name</th>
-          <th scope="col">Email</th>
-          <th scope="col">Email On Behalf</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for booking in bookings %}
-        <tr>
-          <th scope="row">{{booking.id}}</th>
-          <td>{{booking.first_name}}</td>
-          <td>{{booking.last_name}}</td>
-          <td>{{booking.email}}</td>
-          <td>{{booking.email_onbehalf}}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
- 
+    </div>
+
     <!-- My Bookings Modal -->
-   <div class="modal fade" id="myBookings" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">My Bookings</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-          {% if mybookings %}
-              <div class="row p-3">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Date</th>
-                      <th>Email on Behalf</th>
-                      <th>Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <form action="{{url_for('delete')}}" method="post">
+    <div class="modal fade" id="myBookings" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">My Bookings</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% if mybookings %}
+                        <div class="row p-3">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Email on Behalf</th>
+                                    <th>Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <form action="{{ url_for('delete') }}" method="post">
 
-                    {% for mybooking in mybookings %}
-                    <tr id="{{mybooking.id}}">
-                      <td style="font-size: 10px">{{mybooking.booking_date}}</td>
-                      <td>{{mybooking.email_onbehalf}}</td>
-                      <td><input type="checkbox" name="mycheckbox" value="{{mybooking.id}}" /></td>
-                    </tr>
-                    {% endfor %}
+                                    {% for mybooking in mybookings %}
+                                        <tr id="{{ mybooking.id }}">
+                                            <td style="font-size: 10px">{{ mybooking.booking_date }}</td>
+                                            <td>{{ mybooking.email_onbehalf }}</td>
+                                            <td><input type="checkbox" name="mycheckbox" value="{{ mybooking.id }}"/>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
 
-                  </tbody>
+                                </tbody>
 
-                </table>
-              </div>
-          {% endif %}
-      </div>
-      <div class="modal-footer">
-          <input type="submit" value="Delete All Selected" class="btn btn-danger">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-        </form>
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Delete All Selected" class="btn btn-danger">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-<div class="row">
-  <div class="col">
-    <h3 class="mt-5">Future bookings</h3>
-  </div>
-</div>
+    <div class="row">
+        <div class="col">
+            <h3 class="mt-5">Future bookings</h3>
+        </div>
+    </div>
 
-<form
-    hx-get="/futurebookings"
-    hx-target="#search-results">
-    <input type="date" class="form-control" id="futuredate" name="futuredate">
-    <button class="btn btn-primary mb-2 centre">Submit</button>
-    
-</form>
+    <div class="row">
+        <div class="col-6">
+            <form
+                    hx-get="/futurebookings"
+                    hx-target="#search-results">
+                <input type="date" class="form-control" id="futuredate" name="futuredate">
+                <button class="btn btn-primary mb-2 mt-3 centre">Submit</button>
+            </form>
+        </div>
 
-<div id="search-results">
- 
-
+    </div>
 
 
-  {% if currentbookings %}
-  <div class="row mt-2">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">First name</th>
-          <th scope="col">Last name</th>
-          <th scope="col">Email</th>
-          <th scope="col">Email On Behalf</th>
-          <th scope="col">Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for booking in currentbookings %}
-        <tr>
-          <th scope="row">{{booking.id}}</th>
-          <td>{{booking.first_name}}</td>
-          <td>{{booking.last_name}}</td>
-          <td>{{booking.email}}</td>
-          <td>{{booking.email_onbehalf}}</td>
-          <td>{{booking.booking_date}}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  {% endif %}
-<div></div>
+    <div id="search-results" class="mb-5">
+    {% if currentbookings %}
+        <div class="row mt-2">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First name</th>
+                    <th scope="col">Last name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Email On Behalf</th>
+                    <th scope="col">Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for booking in currentbookings %}
+                    <tr>
+                        <th scope="row">{{ booking.id }}</th>
+                        <td>{{ booking.first_name }}</td>
+                        <td>{{ booking.last_name }}</td>
+                        <td>{{ booking.email }}</td>
+                        <td>{{ booking.email_onbehalf }}</td>
+                        <td>{{ booking.booking_date }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+    </div>
 
 
 {% endblock %}
