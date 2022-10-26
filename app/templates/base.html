@@ -29,15 +29,21 @@
                 </ul>
                 <span class="navbar-text">
                     <div>
-                        {% if current_user.is_anonymous %}
-                        <a class="btn btn-success text-white" href="{{ url_for('register') }}">Register</a>
-                        <a class="btn btn-primary text-white" href="{{ url_for('login') }}">Login</a>
-                        {% else %}
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myBookings">
-                              My Bookings
-                            </button>
+                        
+                        {% if user %}
+                        
                         <a class="btn btn-primary text-white" href="{{ url_for('logout') }}">Logout</a>
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myBookings">
+                          My Bookings
+                        </button>
+                        {% else %}
+                        <a class="btn btn-primary text-white" href="{{ auth_url }}">Sign In</a></li>
+                        
+
+                        
                         {% endif %}
+                           
+                        
                     </div>
                   </span>
               </div>

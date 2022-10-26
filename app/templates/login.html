@@ -1,61 +1,47 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col text-center mt-5">
-            <h1 class="header-title"><i class="fas fa-car"></i> Book <span class="blue">Space</span></h1>
-        </div>
-        <div class="row">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-        
-            {% for category, message in messages %}
-            <div class="alert {{ category }} alert-dismissible fade show mt-5" role="alert">
-              <strong>{{message}}</strong>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            {% endfor %}
-        
-            {% endif %}
-            {% endwith %}
-        </div>
-        <div class="row">
-            <div class="col">
-                <h3 class="mt-5">Book a parking bay</h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-6" id="booking_form">
-                <h3 class="text-center">Sign In</h3>
-                <form action="" method="post" novalidate>
-                    {{ form.hidden_tag() }}
-                        {{ form.username.label(class='form-label') }}
-                        {{ form.username(size=32, class='form-control') }}<br>
-                        {{ form.password.label(class='form-label') }}
-                        {{ form.password(size=32, class='form-control') }}
-                    <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-                    <p>{{ form.submit(class='btn btn-primary') }}</p>
-                    {% for error in form.username.errors %}
-                    <div class="alert alert-danger">
-                        <strong>Error username!</strong> {{ error }}
-                    </div>
-                    {% endfor %}
-                    {% for error in form.password.errors %}
-                    <div class="alert alert-danger">
-                        <strong>Error password!</strong> {{ error }}
-                    </div>
-                    {% endfor %}
-                </form>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-6">
-                <iframe width="100%" height="450" style="border:0" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/place?key=AIzaSyANLhb67nWO0n9B3N6DGz19JTulEtBDYhY
-                    &q=The+Core,+Newcastle+upon+Tyne+NE4+5TF">
-                </iframe>
-            </div>
-        </div>
+  <div class="row">
+    <div class="col text-center mt-5">
+      <h1 class="header-title">
+        <i class="fas fa-car"></i> Book <span class="blue">Space</span>
+      </h1>
     </div>
+    <div class="row">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div
+        class="alert {{ category }} alert-dismissible fade show mt-5"
+        role="alert"
+      >
+        <strong>{{message}}</strong>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+    </div>
+    <div class="row">
+      <div class="col">
+        <h3 class="mt-5">Book a parking bay</h3>
+
+        <div class="col-xs-12 col-sm-12 col-md-6">
+          <iframe
+            width="100%"
+            height="450"
+            style="border: 0"
+            loading="lazy"
+            allowfullscreen
+            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyANLhb67nWO0n9B3N6DGz19JTulEtBDYhY
+                    &q=The+Core,+Newcastle+upon+Tyne+NE4+5TF"
+          >
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}
 </div>
-
-
-{% endblock %}
