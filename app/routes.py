@@ -99,16 +99,21 @@ def index():
     if not session.get("user"):
         print(session)
         return redirect(url_for("login"))
-    print("User Info")
-    print(session["user"])
-    print(session["user"]["preferred_username"])
+    admin = 'false'
+
+    if 'roles' in session["user"]:
+        # print("roles present")
+        if 'Edit' in session["user"]["roles"]:
+            admin = 'true'
+
+    #print(session["user"]["preferred_username"])
     token = _get_token_from_cache(app_config.SCOPE)
-    print(token)
-    graph_data = requests.get(  # Use token to call downstream service
-        app_config.ENDPOINT,
-        headers={"Authorization": "Bearer " + token["access_token"]},
-    ).json()
-    print(graph_data)
+    # print(token)
+    # graph_data = requests.get(  # Use token to call downstream service
+    #     app_config.ENDPOINT,
+    #     headers={"Authorization": "Bearer " + token["access_token"]},
+    # ).json()
+    # # print(graph_data)
     spaces = settings["spaces"]
     today = date.today()
     midnight = datetime.combine(today, datetime.min.time())
@@ -116,6 +121,7 @@ def index():
     mybookings = Booking.query.filter(
         Booking.email == session["user"]["preferred_username"]
     ).all()
+    allbookings = Booking.query.all()
     count_bookings = Booking.query.filter(Booking.booking_date == midnight).count()
     old_bookings = Booking.query.filter(Booking.booking_date < midnight).all()
     currentbookings = Booking.query.filter(Booking.booking_date == midnight).all()
@@ -168,6 +174,7 @@ def index():
                     )
                     db.session.add(new_booking)
                     db.session.commit()
+
                     flash("Your booking was successful", "alert-success")
                     return redirect(url_for("index"))
             if count_bookings >= spaces:
@@ -192,6 +199,8 @@ def index():
         mybookings=mybookings,
         currentbookings=currentbookings,
         user=session["user"],
+        admin=admin,
+        allbookings=allbookings,
         version=msal.__version__,
     )
 
@@ -202,6 +211,20 @@ def delete():
     if request.method == "POST":
         if request.form.getlist("mycheckbox"):
             for getid in request.form.getlist("mycheckbox"):
+                # print(getid)
+                Booking.query.filter_by(id=getid).delete()
+                db.session.commit()
+                # cur.execute('DELETE FROM contacts WHERE id = {0}'.format(getid))
+                # conn.commit()
+            flash("Successfully Deleted!", "alert-success")
+    return redirect("/index")
+
+@application.route("/delete2", methods=["GET", "POST"])
+def delete2():
+    # cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    if request.method == "POST":
+        if request.form.getlist("mycheckbox2"):
+            for getid in request.form.getlist("mycheckbox2"):
                 # print(getid)
                 Booking.query.filter_by(id=getid).delete()
                 db.session.commit()

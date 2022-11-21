@@ -14,6 +14,9 @@ AUTHORITY = "https://login.microsoftonline.com/71c647c6-c37a-41ed-85bf-c2b515a5d
 # AUTHORITY = "https://login.microsoftonline.com/Enter_the_Tenant_Name_Here"
 
 REDIRECT_PATH = "/getAToken"  # Used for forming an absolute URL to your redirect URI.
+
+# REDIRECT_PATH = "/index"  # Used for forming an absolute URL to your redirect URI.
+
 # The absolute URL must match the redirect URI you set
 # in the app's registration in the Azure portal.
 

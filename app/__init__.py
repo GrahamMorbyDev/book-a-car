@@ -6,6 +6,8 @@ import json
 import os
 import app.app_config as app_config
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 application = Flask(__name__)
 application.config.from_object(app_config)
 Session(application)
@@ -29,7 +31,11 @@ if "RDS_DB_NAME" in os.environ:
 else:
     application.config[
         "SQLALCHEMY_DATABASE_URI"
-    ] = "mysql://root:omegaalpha83@localhost/carbookingapp"
+    ] = "mysql://root:omegaalpha83@localhost:3306/carbookingapp"
+    # application.config[
+    #     "SQLALCHEMY_DATABASE_URI"
+    # ] = 'sqlite:///' + os.path.join(basedir, 'parking.db')
+
 
 db = SQLAlchemy(application)
 

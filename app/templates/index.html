@@ -57,7 +57,7 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6">
             <iframe width="100%" height="550" style="border:0" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/place?key=AIzaSyANLhb67nWO0n9B3N6DGz19JTulEtBDYhY
-                    &q=The+Core,+Newcastle+upon+Tyne+NE4+5TF">
+            &q=The+Garage+-+Helix-multi+storey+car+park,+Newcastle+upon+Tyne+NE4+5BQ">
             </iframe>
         </div>
     </div>
@@ -188,6 +188,54 @@
         </div>
     {% endif %}
     </div>
+
+    {% if admin == 'true' %}
+        <div class="row">
+            <div class="col">
+                <h3 class="mt-5">Admin</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h3 class="mt-5">All bookings</h3>
+            </div>
+        </div>
+        <div class="row mt-2">
+        <div class="col">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First name</th>
+                    <th scope="col">Last name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Email On Behalf</th>
+                    <th scope="col">Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <form action="{{ url_for('delete2') }}" method="post">
+                {% for everybooking in allbookings %}
+                    <tr>
+                        <th scope="row">{{ everybooking.id }}</th>
+                        <td>{{ everybooking.first_name }}</td>
+                        <td>{{ everybooking.last_name }}</td>
+                        <td>{{ everybooking.email }}</td>
+                        <td>{{ everybooking.email_onbehalf }}</td>
+                        <td>{{ everybooking.date }}</td>
+                        
+                        <td><input type="checkbox" name="mycheckbox2" value="{{ everybooking.id }}"/>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <input type="submit" value="Delete All Selected" class="btn btn-danger">
+        </form>
+            
+        </div>
+        </div>
+    {% endif %}
 
 
 {% endblock %}
